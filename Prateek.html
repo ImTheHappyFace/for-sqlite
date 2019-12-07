@@ -1,0 +1,377 @@
+<html lang="en">
+
+<head>
+    <title>Slack</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="static/js/autobahn.js"></script>
+    <script src="static/js/route.js"></script>
+    <script src="static/js/angular.js"></script>
+    <script src="http://code.angularjs.org/1.2.13/angular.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <script src="static/js/jQuery v3.4.1 .js"> </script>
+    <script src="static/js/popper-min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="static/js/route.js"></script>
+
+
+    
+   
+    
+    <link rel="stylesheet" href="static/css/font-awesome.css">
+    <link rel="stylesheet" href="assets/slack.css">
+</head>
+
+<body style="margin: 0;" ng-app="myApp" ng-controller="myCtrl">
+    <div class="container-fluid">
+        <div class="row">
+            <div style="width: 220px;height:100vh;background: #3F0E40; color:rgb(188,171,188);" class="side-row">
+                <div class="col-md-12">
+                    <div class="row" style="padding: 8px 16px 0 16px;">
+                        <header class="prateek"
+                            style="font-size: 18px;line-height: 1.33334;font-weight: 700;padding-right: 4px;cursor: pointer;" ng-click = "user2()">
+                            Prudhvi
+                        </header>
+                        <span style="padding-top: 5px;"><i class="fa fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                        <div class="col-md right-corner" style="display: flex;">
+                            <div class="row">
+                                <i class="fa fa-bell-o" aria-hidden="true" style="padding-top: 5px;"></i> </i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 0px 16px 40px 16px;">
+                        <span class="prateek-rana" ng-click = "user()"><i class="fa fa-circle" aria-hidden="true"
+                                style="font-size: 10px;color: #2BAC76;;padding-right: 5px;"></i>Prudhvi</span>
+                    </div>
+
+                    <!-- 2nd Phase -->
+                    <div class="row white-hover" style="padding: 8px 16px 0 16px;">
+                         <header ng-click="channel()"
+                            style="font-size: 18px;line-height: 1.33334;font-weight: 600;padding-right: 4px;">
+                            <a href="#/home" style="color: white;text-decoration: none;">Channels</a>
+                        </header>
+                        <div class="col-md right-corner" style="display: flex;">
+                            <div class="row">
+                                <i id="plus-button" class="fa fa-plus-circle " aria-hidden="true" style="padding-top: 5px;"></i> </i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Channel Names -->
+                    <div class="channels" style="padding-bottom: 30px;">
+                        <span class="hoverable" ng-repeat="x in channels"> <a href="#/general" style="color: white;text-decoration: none;" ng-click="callme(x.channelName)"># {{x.name}}</a> <br></span>
+                        <span ng-repeat="x in chAdd" ng-show = "invisible"><a href="" style="color: white;text-decoration: none;" ># {{x.name}}</a> <br></span>
+                    
+                    </div>
+
+                    <!-- Add a Channel -->
+
+                    <div class="row white-hover" style="padding: 8px 16px 16px 16px;">
+                        <header style="font-size: 16px;line-height: 1.33334;font-weight: 600;padding-right: 4px;">
+                            <span>+</span> Add a Channel</a>
+                        </header>
+                    </div>
+
+                    <!-- Direct Messages -->
+
+
+                    <div class="row white-hover" style="padding: 8px 16px 0 16px;">
+                        <header ng-click="dirMsg()"
+                            style="font-size: 16px;line-height: 1.33334;font-weight: 700;padding-right: 4px;">
+                            Direct Messages
+                        </header>
+                        <div class="col-md right-corner" style="display: flex;">
+                            <div class="row">
+                                <i class="fa fa-plus-circle" aria-hidden="true" style="padding-top: 5px;"></i> </i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-repeat="x in dMsg">
+                        <div class="row hoverable " style="padding: 8px 16px 0 16px;">
+                            <header style="font-size: 15px;line-height: 1.33334;font-weight: 500;padding-right: 4px;">
+                                <span style="padding-right: 6px;color: #2BAC76;;"><i class="fa fa-heart" aria-hidden="true"
+                                        style="font-size: 12px;"></i></span>{{x.name}}
+                            </header>
+                            <div class="col-md right-corner" style="display: flex;">
+                                <div class="row">
+                                    <a href="#"><span class="badge"
+                                            style="background: rgba(255, 0, 0, 0.774);color: white;width: 25px;border-radius: 8px;">{{x.notificationCount}}</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Invite People -->
+
+                    <div class="row white-hover" style="padding: 8px 16px 16px 16px;">
+                        <header style="font-size: 16px;line-height: 1.33334;font-weight: 500;padding-right: 4px;">
+                            <span>+</span> Invite People
+                        </header>
+                    </div>
+
+
+
+                    <!-- Apps Header -->
+
+                    <div class="row white-hover" style="padding: 8px 16px 0 16px;">
+                        <header ng-click="application()"
+                            style="font-size: 16px;line-height: 1.33334;font-weight: 700;padding-right: 4px;">
+                            Apps
+                        </header>
+                        <div class="col-md right-corner" style="display: flex;">
+                            <div class="row">
+                                <i class="fa fa-plus-circle" aria-hidden="true" style="padding-top: 5px;"></i> </i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Apps - Content -->
+
+                    <div class="row" style="padding: 8px 16px 0 16px;">
+                        <header style="font-size: 15px;line-height: 1.33334;font-weight: 500;padding-right: 4px;"
+                            class="hoverable">
+                            <div ng-repeat="x in apps" style="padding-bottom: 4px;"><i class="fa fa-circle"
+                                    aria-hidden="true" style="font-size: 12px;color: rgb(60, 212, 111);"></i> {{x.name}} <br>
+                            </div>
+                    </div>
+                </div>
+              
+            </div>
+
+
+
+            
+
+
+            <div class="col-md col-lg" style="overflow: hidden;">
+                <div class="row"
+                    style="height: 60px;background: #FFFFFF;border-bottom: 1px solid rgba(0, 0, 0, 0.13); padding: 0 22px 0 22px;">
+                    <div class="col-md-5 col-sm-6">
+                        <div style="padding: 3px 0;">
+                            <div class="row message-header"><span
+                                    style="color: black;font-weight: 600;font-size: 22px;padding: 9px 0 0px 0;">{{mainChat}}</span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-7 col-sm-8 top-search-container">
+                        <div class="row">
+                            <div style="padding: 12px 0 0px 0;font-size: 21px; cursor: pointer;">
+
+                                <input class="search-box" type="text"
+                                    style="padding: 0px;border-radius: 5px;border: 1px solid rgba(0, 0, 0, 0.274);width:300px ;"
+                                    placeholder=" &nbsp; Search..">
+
+                                <span><i class="fa fa-ellipsis-v" style="padding-left: 10px;"
+                                        aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div   class="row " style="padding: 15px 22px 0 22px;display: flex;height: 828px;overflow-y: scroll;overflow-x:hidden">
+                    <div >
+
+                    <!-- Ui View -->
+                
+                            <div ui-view>
+                            
+                                </div>
+
+                                  
+                                  <div class="row" id="Receiver" class="controller" >
+  
+                                    <div class="div text-area" ng-repeat="a in mglist track by $index" style="width: 100%;display: flex;padding: 15px 22px 0 22px;">
+                                        <div >
+                                            <img class="image-chatbox" ng-src="{{a.image}}" alt="" width="50px" height="50px">
+                                        </div>
+                                        <div style="padding-left: 10px;">
+                                            <div>
+                                                <header style="font-weight: 700; color: black; font-size: inherit;">{{a.mainName1}}<span
+                                                        style="color: rgba(0, 0, 0, 0.288); font-size: 12px;font-weight: 500;letter-spacing: 1px;margin-left: 2px;">
+                                                        {{CurrentDate | date:'HH:mm'}}</span></header>
+                                            </div>
+                                             <!-- Text -->
+                                    <div style="padding-bottom: 18px;">
+                                        <div ng-if = "a.message != ' '">
+                                            <div style="font-weight: 600;font-size: 14px;color: grey;">
+                                                {{ a.message }} </div>
+                                        </div>
+                                    </div>
+
+                                     <!-- Image -->
+                                  <div>
+                                    <div ng-if = "a.type == 'image'">
+                                        <img ng-src="{{a.attachment}}" alt="" width="290px" height="190px"
+                                        style="border-radius: 5px;">
+                                    </div>
+                                  </div>
+
+                                    <!-- Video -->
+                                    <div  ng-if = "a.type == 'mp4'" style="border: 1px solid rgba(0, 0, 0, 0.137);">
+                                       <div style="padding: 10px 15px 0 15px;">
+                                        <span>
+                                            <i class="fa fa-play-circle-o" aria-hidden="true" style="font-size: 42px;cursor: pointer;"></i>
+                                        </span>
+                                        <span style="position: relative;top: -10px;font-size: 18px;">
+                                            Video Animal.mp4
+                                        </span>
+                                       </div>
+                                        <div  style="padding: 20px 15px 15px 15px;">
+                                            
+                                            <video width="520px"  controls>
+                                                <source src="{{a.attachment}}" type="video/mp4">
+                                              </video>
+                                        </div>
+    
+                                    </div>
+                                    <!-- YTube Video -->
+                                    <div  ng-if = "a.type == 'youtube'" style="border: 1px solid rgba(0, 0, 0, 0.137);">
+                                        <div style="padding: 10px 15px 0 15px;">
+                                         
+                                             <a href="https://www.youtube.com/v/tgbNymZ7vqY" style="text-decoration: none;">https://www.youtube.com/v/tgbNymZ7vqY</a>
+                                         
+                                        </div>
+                                         <div  style="padding: 18px 15px 15px 15px;">
+                                             
+                                            <object width="420" height="315"
+                                            data="https://www.youtube.com/v/tgbNymZ7vqY">
+                                            </object>
+                                         </div>
+     
+                                     </div>
+
+                                     <!-- audio -->
+
+                                     <div  ng-if = "a.type == 'audio'" style="border: 1px solid rgba(0, 0, 0, 0.137);">
+                                        <div style="padding: 10px 15px 0 15px;">
+                                            <span>
+                                                <i class="fa fa-music" aria-hidden="true" style="font-size: 32px;cursor: pointer;"></i>
+                                            </span>
+                                            <span style="position: relative;top: -7px;font-size: 18px;padding-left: 10px;">
+                                                Audio.mp3
+                                            </span>
+                                           </div>
+                                         <div  style="padding: 18px 15px 15px 15px;">
+                                             
+                                            <audio controls style="width: 520px;" style="padding: 12px;">
+                                                <source src="{{a.attachment}}" type="audio/mp3">
+                                            </audio>
+                                         </div>
+     
+                                     </div>
+                                     <!-- PDF -->
+                                     <div ng-if = "a.type == 'docs'">
+                                        <embed src="{{a.attachment}}" width="200px" height="210px" />
+                                    </div>
+
+                                            <div>
+
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>   
+                    </div>
+                    
+                </div>
+
+                <div class="row "
+                    style="padding: 15px 22px 0 22px;display: flex;align-content: flex-end;" class="controller">
+
+
+                    <button ng-click="clickMe(model.message)" id="notify" style=" border-radius: 3px; border: none;background: none;width:5%;
+                             border-bottom: 1px solid rgba(0, 0, 0, 0.144);
+                            border-top: 1px solid rgba(0, 0, 0, 0.144);
+                            border-left: 1px solid rgba(0, 0, 0, 0.144);">
+                        <i>
+                            <i class="fa fa-plus" style="font-size: 24px;"></i>
+                        </i>
+                    </button>
+                    <textarea placeholder="Message #random" id="textArea" ng-model="model.message"></textarea>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    </div>
+    </div>
+
+<script>
+$('textarea').each(function () {
+ this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+}).on('input', function () {
+    this.style.height = 'auto';
+    this.style.width = '95%';
+    this.style.resize = 'none';
+    this.style.height = (this.scrollHeight) + 'px';
+});
+
+
+$(document).ready(function () {
+    $("#textArea").val('');
+});
+
+
+const notifier = require('node-notifier')
+const path = require('path');
+
+document.getElementById('notify').onclick = (event) => {
+    notifier.notify({
+            title: 'Electron',
+            message: 'Details Submittrd Succesfully!',
+            icon: path.join('', 'resources/notification.jpg'),
+            sound: true,
+            wait: true
+        },
+        function (err, response) {
+            // Response is response from notification
+        });
+
+    notifier.on('click', function (notifierObject, options) {
+        console.log("You clicked on the notification")
+    });
+
+    notifier.on('timeout', function (notifierObject, options) {
+        console.log("Notification timed out!")
+    });
+}</script>
+
+<script >
+        const modal = document.querySelector('#my-modal');
+        const modalBtn = document.querySelector('#plus-button');
+        const closeBtn = document.querySelector('.plus-close');
+        
+        // Events
+        modalBtn.addEventListener('click', function(){
+            modal.style.display = 'block';
+        });
+        closeBtn.addEventListener('click', function(){
+            modal.style.display = 'none';
+        });
+        window.addEventListener('click', outsideClick);
+        
+        
+        function outsideClick(e) {
+          if (e.target == modal) {
+            modal.style.display = 'none';
+          }
+        }
+        </script>
+    
+
+
+</body>
+
+</html>
+
+
+
